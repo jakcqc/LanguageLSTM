@@ -56,7 +56,7 @@ public:
 
 int main()
 {
-	int amountT = 10;
+	int amountT = 1000;
 	Grammar grammar;
 	std::vector<std::string> sentencesAll;
 	grammar.add_rule('S', { "N", "Nas well as N" });
@@ -112,6 +112,8 @@ int main()
 	grammarJson.add_rule('B', { "true","false", });
 	grammarJson.add_rule('D', { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", });
 	grammarJson.add_rule('O', { "YO","YYYY"});
+	grammarJson.add_rule('E', { "}"});
+
 std::vector<std::string> tempRewrite2;
 	for (char c = 'a'; c <= 'z'; ++c) {
 		tempRewrite2.push_back(std::string(1,c));
@@ -124,26 +126,36 @@ std::vector<std::string> tempRewrite2;
 		cout << sentence << endl;
 
 	}
+	std::vector<std::string> sentencesPOnly;
+
+	for (int i = 0; i < amountT; i++) {
+		string sentence = grammarJson.generate('P');
+		sentencesPOnly.push_back(sentence);
+		cout << sentence << endl;
+
+	}
+	for (int i = 0; i < amountT; i++) {
+		string sentence = grammar.generate('P');
+		sentencesPOnly.push_back(sentence);
+		cout << sentence << endl;
+
+	}
+	std::vector<std::string> sentencesPOnlyJson;
+
+for (int i = 0; i < amountT; i++) {
+		string sentence = grammarJson.generate('P');
+		sentencesPOnlyJson.push_back(sentence);
+		cout << sentence << endl;
+
+	}
+
 
 int cont = 0;
-	// std::ofstream outfile("sentences.csv");
-	// if (outfile.is_open()) {
-	// 	outfile << "input" << ",target"<<std::endl;
-	// 	for (const auto& sentence : sentencesAll) {
-	// 		outfile << sentence << ","<<sentencesJson[cont]<<std::endl;
-	// 		cont++;
-	// 	}
-	// 	outfile.close();
-	// 	std::cout << "Sentences exported to sentences.csv" << std::endl;
-	// }
-	// else {
-	// 	std::cerr << "Error opening file for writing" << std::endl;
-	// }
-std::ofstream outfile("sentences.csv");
+	std::ofstream outfile("sentencesSingle.csv");
 	if (outfile.is_open()) {
-		outfile << "input"<<std::endl;
-		for (const auto& sentence : sentencesAll) {
-			outfile << sentence << " "<<sentencesJson[cont]<<std::endl;
+		outfile << "input" << ",target"<<std::endl;
+		for (const auto& sentence : sentencesPOnly) {
+			outfile << sentence << ","<<sentencesPOnlyJson[cont]<<std::endl;
 			cont++;
 		}
 		outfile.close();
@@ -152,6 +164,19 @@ std::ofstream outfile("sentences.csv");
 	else {
 		std::cerr << "Error opening file for writing" << std::endl;
 	}
+// std::ofstream outfile("sentences.csv");
+// 	if (outfile.is_open()) {
+// 		outfile << "input"<<std::endl;
+// 		for (const auto& sentence : sentencesAll) {
+// 			outfile << sentence << " "<<sentencesJson[cont]<<std::endl;
+// 			cont++;
+// 		}
+// 		outfile.close();
+// 		std::cout << "Sentences exported to sentences.csv" << std::endl;
+// 	}
+// 	else {
+// 		std::cerr << "Error opening file for writing" << std::endl;
+// 	}
 
 
 
